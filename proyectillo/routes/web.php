@@ -7,6 +7,11 @@ use App\Models\Grupo;
 use App\Models\Modulo;
 use App\Models\Profesor;
 
+use App\Http\Controllers\ProfesoresController;
+use App\Http\Controllers\FormacionController;
+use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\LeccionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,3 +44,7 @@ Route::get('/', function () {
     
     
 });
+
+
+
+Route::resource('profesor',ProfesoresController::Class);

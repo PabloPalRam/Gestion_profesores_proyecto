@@ -14,7 +14,8 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        //
+        $grupos = Grupo::all();
+        return view('grupo.index',['grupos'=> $grupos]);
     }
 
     /**
@@ -24,7 +25,8 @@ class GrupoController extends Controller
      */
     public function create()
     {
-        //
+        $formaciones = Formaciones::pluk('id','siglas');
+        return view('grupo.create',['formaciones'=> $formaciones]);
     }
 
     /**
@@ -35,7 +37,13 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $grupo = new Grupo($request->all());
+        try {
+            $grupo->save();
+             return redirect('grupo')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -46,7 +54,7 @@ class GrupoController extends Controller
      */
     public function show(Grupo $grupo)
     {
-        //
+        return view('grupo.show',['grupo'=> $grupo]);
     }
 
     /**
@@ -57,7 +65,8 @@ class GrupoController extends Controller
      */
     public function edit(Grupo $grupo)
     {
-        //
+        $formaciones = Formaciones::pluk('id','siglas');
+        return view('grupo.edit',['formaciones'=> $formaciones]);
     }
 
     /**
@@ -69,7 +78,12 @@ class GrupoController extends Controller
      */
     public function update(Request $request, Grupo $grupo)
     {
-        //
+        try {
+            $grupo->update($request->all());
+            return redirect('grupo')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -80,6 +94,11 @@ class GrupoController extends Controller
      */
     public function destroy(Grupo $grupo)
     {
-        //
+        try {
+            $grupo->delete();
+            return redirect('grupo')->with(['result' => 1]);
+        } catch(\Exception $e) {
+             return back()->withErrors(['result' => -2]);
+        }
     }
 }

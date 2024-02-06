@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profesores;
+use App\Models\Profesor;
 use Illuminate\Http\Request;
 
 class ProfesoresController extends Controller
@@ -14,7 +14,9 @@ class ProfesoresController extends Controller
      */
     public function index()
     {
-        //
+        $profesores = Profesor::all();
+         return view('profesor.index',['profesores'=>  $profesores]);
+        
     }
 
     /**
@@ -24,7 +26,7 @@ class ProfesoresController extends Controller
      */
     public function create()
     {
-        //
+        return view('profesor.create');
     }
 
     /**
@@ -35,8 +37,18 @@ class ProfesoresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $profesores = new Profesor($request->all());
+            $profesores->save();
+            return redirect('profesor')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
+               
     }
+            
+            
+    
 
     /**
      * Display the specified resource.
@@ -44,9 +56,9 @@ class ProfesoresController extends Controller
      * @param  \App\Models\Profesores  $profesores
      * @return \Illuminate\Http\Response
      */
-    public function show(Profesores $profesores)
+    public function show(Profesor $profesor)
     {
-        //
+         return view('profesor.show',['profesor'=>  $profesor]);
     }
 
     /**
@@ -55,9 +67,9 @@ class ProfesoresController extends Controller
      * @param  \App\Models\Profesores  $profesores
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profesores $profesores)
+    public function edit(Profesor $profesor)
     {
-        //
+        return view('profesor.edit',['profesor'=>  $profesor]);
     }
 
     /**
@@ -67,9 +79,15 @@ class ProfesoresController extends Controller
      * @param  \App\Models\Profesores  $profesores
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profesores $profesores)
+    public function update(Request $request, Profesor $profesor)
     {
-        //
+         try {
+            $profesor->update($request->all());
+            return redirect('profesor')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
+             
     }
 
     /**
@@ -80,6 +98,13 @@ class ProfesoresController extends Controller
      */
     public function destroy(Profesores $profesores)
     {
-        //
+         try {
+                    $profesores->delete();
+                    return redirect('profesor')->with(['result' => 1]);
+                } catch(\Exception $e) {
+                     return back()->withErrors(['result' => -2]);
+                }
+                
+            
     }
 }

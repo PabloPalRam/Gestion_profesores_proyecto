@@ -14,7 +14,9 @@ class FormacionController extends Controller
      */
     public function index()
     {
-        //
+        $formaciones = Formacion::all();
+        return view('formacion.index',['formaciones'=>$formaciones]);
+        
     }
 
     /**
@@ -24,7 +26,7 @@ class FormacionController extends Controller
      */
     public function create()
     {
-        //
+        return view('formacion.create');
     }
 
     /**
@@ -35,7 +37,14 @@ class FormacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $formacion = new Formacion($request->all());
+        
+        try {
+            $formacion->save();
+             return redirect('formacion')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -46,7 +55,7 @@ class FormacionController extends Controller
      */
     public function show(Formacion $formacion)
     {
-        //
+          return view('formacion.show',['formacion'=>$formacion]);
     }
 
     /**
@@ -57,7 +66,7 @@ class FormacionController extends Controller
      */
     public function edit(Formacion $formacion)
     {
-        //
+        return view('formacion.edit',['formacion'=>$formacion]);
     }
 
     /**
@@ -69,7 +78,12 @@ class FormacionController extends Controller
      */
     public function update(Request $request, Formacion $formacion)
     {
-        //
+         try {
+            $formacion->update($request->all());
+            return redirect('formacion')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -80,6 +94,11 @@ class FormacionController extends Controller
      */
     public function destroy(Formacion $formacion)
     {
-        //
+        try {
+                    $formacion->delete();
+                    return redirect('formacion')->with(['result' => 1]);
+                } catch(\Exception $e) {
+                     return back()->withErrors(['result' => -2]);
+                }
     }
 }

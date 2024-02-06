@@ -14,7 +14,8 @@ class ModuloController extends Controller
      */
     public function index()
     {
-        //
+        $modulos = Modulo::all();
+        return view('modulo.index',['modulos'=> $modulos]);
     }
 
     /**
@@ -24,7 +25,9 @@ class ModuloController extends Controller
      */
     public function create()
     {
-        //
+        $formaciones = Formaciones::pluk('id','siglas');
+        return view('modulo.create',['formaciones'=> $formaciones]);
+    
     }
 
     /**
@@ -35,7 +38,13 @@ class ModuloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $modulo = new Modulo($request->all());
+        try {
+            $grupo->save();
+             return redirect('modulo')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -46,7 +55,8 @@ class ModuloController extends Controller
      */
     public function show(modulo $modulo)
     {
-        //
+        return view('modulo.show',['modulo'=> $modulo]);
+        
     }
 
     /**
@@ -57,7 +67,8 @@ class ModuloController extends Controller
      */
     public function edit(modulo $modulo)
     {
-        //
+        $formaciones = Formaciones::pluk('id','siglas');
+        return view('modulo.edit',['formaciones'=> $formaciones]);
     }
 
     /**
@@ -69,7 +80,12 @@ class ModuloController extends Controller
      */
     public function update(Request $request, modulo $modulo)
     {
-        //
+        try {
+            $modulo->update($request->all());
+            return redirect('modulo')->with(['result' => 1]);
+        } catch(\Exception $e) {     
+            return back()->withErrors(['result' => -2]);
+        }
     }
 
     /**
@@ -80,6 +96,11 @@ class ModuloController extends Controller
      */
     public function destroy(modulo $modulo)
     {
-        //
+        try {
+            $modulo->delete();
+            return redirect('modulo')->with(['result' => 1]);
+        } catch(\Exception $e) {
+             return back()->withErrors(['result' => -2]);
+        }
     }
 }
