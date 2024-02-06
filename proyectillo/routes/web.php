@@ -23,28 +23,12 @@ use App\Http\Controllers\LeccionController;
 |
 */
 
-Route::get('/', function () {
-    $lecciones = Leccion::all();
-    $profesores = Profesor::all();
-    $formaciones = Formacion::all();
-    $modulos = Modulo::all();
-    $grupos = Grupo::all();
-    
-    
-    return view('pruebas',
-                ['profesores'=>$profesores,
-                'lecciones'=>$lecciones,
-                'formaciones'=>$formaciones,
-                'modulos'=>$modulos,
-                'grupos'=>$grupos,
-                
-                
-                
-                ]);
-    
-    
-});
+
 
 
 
 Route::resource('profesor',ProfesoresController::Class);
+Route::resource('modulo',ProfesoresController::Class);
+Route::resource('grupo',ProfesoresController::Class);
+Route::resource('formacion',ProfesoresController::Class);
+Route::resource('leccion',ProfesoresController::Class);
